@@ -2,8 +2,8 @@
   <div style="container">
     <h1 style="margin-bottom: 20px; padding: 10px; text-align: center;">报名页面</h1>
     <a-form :model="signupForm" name="signup" :label-col="{span: 8}" :wrapper-col="{span: 8}" autocomplete="off">
-      <a-form-item label="学号" name="num">
-        <a-input v-model:value="signupForm.num" />
+      <a-form-item label="学号" name="stu_id">
+        <a-input v-model:value="signupForm.stu_id" />
       </a-form-item>
       <a-form-item label="姓名" name="name">
         <a-input v-model:value="signupForm.name" />
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       signupForm: {
-        num: '',
+        stu_id: '',
         name: '',
         sex: '',
         dept: '',
