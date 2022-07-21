@@ -14,6 +14,25 @@
           <a-radio value="female">女</a-radio>
         </a-radio-group>
       </a-form-item>
+      <a-form-item label="第一志愿" name="first-choice">
+        <a-select v-model:value="signupForm.firstChoice">
+          <a-select-option value="新媒体平台">新媒体平台</a-select-option>
+          <a-select-option value="新媒体视频号">新媒体视频号</a-select-option>
+          <a-select-option value="光in影像工作室">光in影像工作室</a-select-option>
+          <a-select-option value="平面设计工作室">平面设计工作室</a-select-option>
+          <a-select-option value="比特网络工作室">比特网络工作室</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="第二志愿" name="second-choice">
+        <a-select v-model:value="signupForm.secondChoice" :disabled="!signupForm.firstChoice">
+          <a-select-option value=""></a-select-option>
+          <a-select-option value="新媒体平台">新媒体平台</a-select-option>
+          <a-select-option value="新媒体视频号">新媒体视频号</a-select-option>
+          <a-select-option value="光in影像工作室">光in影像工作室</a-select-option>
+          <a-select-option value="平面设计工作室">平面设计工作室</a-select-option>
+          <a-select-option value="比特网络工作室">比特网络工作室</a-select-option>
+        </a-select>
+      </a-form-item>
       <a-form-item label="学院" name="dept">
         <a-select v-model:value="signupForm.dept">
           <a-select-option value="电子信息与电气工程学部">电子信息与电气工程学部</a-select-option>
@@ -51,7 +70,7 @@
         <a-textarea v-model:value="signupForm.info" />
       </a-form-item>
       <a-form-item :wrapperCol="{offset: 8, span: 8}">
-        <a-button type="primary" html-type="submit">提交</a-button>
+        <a-button type="primary" @click="submit">提交</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -67,12 +86,15 @@ export default {
         stu_id: '',
         name: '',
         sex: '',
+        firstChoice: '',
+        secondChoice: '',
         dept: '',
         tel: '',
         email: '',
         speciality: '',
         info: '',
       },
+
     }
   },
   computed: {},
@@ -80,9 +102,12 @@ export default {
   provide() {
     return {}
   },
-  methods: {},
+  methods: {
+    submit() {
+      alert('提交')
+    }
+  },
   mounted() {
-    
   },
 }
 </script>
