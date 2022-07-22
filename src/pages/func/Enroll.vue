@@ -1,14 +1,14 @@
 <template>
   <div style="container">
     <h1 style="margin-bottom: 20px; padding: 10px; text-align: center;">报名页面</h1>
-    <a-form :model="signupForm" name="signup" :label-col="{span: 8}" :wrapper-col="{span: 8}" autocomplete="off">
-      <a-form-item label="学号" name="stu_id">
-        <a-input v-model:value="signupForm.stu_id" />
+    <a-form :model="signupForm" @finish="submit" ref="formRef" name="signup" :label-col="{span: 8}" :wrapper-col="{span: 8}" autocomplete="off">
+      <a-form-item label="学号" name="stu_id" :rules="[{required: true, message: '请输入学号'}]">
+        <a-input v-model:value="signupForm.stu_id"/>
       </a-form-item>
-      <a-form-item label="姓名" name="name">
+      <a-form-item label="姓名" name="name" :rules="[{required: true, message: '请输入姓名'}]">
         <a-input v-model:value="signupForm.name" />
       </a-form-item>
-      <a-form-item label="性别" name="sex">
+      <a-form-item label="性别" name="sex" :rules="[{required: true, message: '请选择性别'}]">
         <a-radio-group v-model:value="signupForm.sex">
           <a-radio value="male">男</a-radio>
           <a-radio value="female">女</a-radio>
@@ -16,24 +16,16 @@
       </a-form-item>
       <a-form-item label="第一志愿" name="first-choice">
         <a-select v-model:value="signupForm.firstChoice">
-          <a-select-option value="新媒体平台">新媒体平台</a-select-option>
-          <a-select-option value="新媒体视频号">新媒体视频号</a-select-option>
-          <a-select-option value="光in影像工作室">光in影像工作室</a-select-option>
-          <a-select-option value="平面设计工作室">平面设计工作室</a-select-option>
-          <a-select-option value="比特网络工作室">比特网络工作室</a-select-option>
+          <a-select-option v-for="(item, index) in deptList" :key="index" :value="item">{{item}}</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="第二志愿" name="second-choice">
         <a-select v-model:value="signupForm.secondChoice" :disabled="!signupForm.firstChoice">
           <a-select-option value=""></a-select-option>
-          <a-select-option value="新媒体平台">新媒体平台</a-select-option>
-          <a-select-option value="新媒体视频号">新媒体视频号</a-select-option>
-          <a-select-option value="光in影像工作室">光in影像工作室</a-select-option>
-          <a-select-option value="平面设计工作室">平面设计工作室</a-select-option>
-          <a-select-option value="比特网络工作室">比特网络工作室</a-select-option>
+          <a-select-option v-for="(item, index) in deptList" :key="index" :value="item">{{item}}</a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="学院" name="dept">
+      <a-form-item label="学院" name="dept" :rules="[{required: true, message: '请选择学部/学院'}]">
         <a-select v-model:value="signupForm.dept">
           <a-select-option value="电子信息与电气工程学部">电子信息与电气工程学部</a-select-option>
           <a-select-option value="建设工程学部">建设工程学部</a-select-option>
@@ -57,10 +49,10 @@
           </a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="手机" name="tel">
+      <a-form-item label="手机" name="tel" :rules="[{required: true, message: '请输入手机号'}]">
         <a-input v-model:value="signupForm.tel" />
       </a-form-item>
-      <a-form-item label="邮箱" name="email">
+      <a-form-item label="邮箱" name="email" :rules="[{required: true, message: '请输入邮箱'}]">
         <a-input v-model:value="signupForm.email" />
       </a-form-item>
       <a-form-item label="特长" name="speciality">
@@ -70,7 +62,7 @@
         <a-textarea v-model:value="signupForm.info" />
       </a-form-item>
       <a-form-item :wrapperCol="{offset: 8, span: 8}">
-        <a-button type="primary" @click="submit">提交</a-button>
+        <a-button type="primary" htmlType="submit">提交</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -78,6 +70,8 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
+import { nanoid } from 'nanoid'
+import { notification } from 'ant-design-vue'
 export default {
   components: {},
   data() {
@@ -93,18 +87,26 @@ export default {
         email: '',
         speciality: '',
         info: '',
-      },
-
+      }
     }
   },
   computed: {},
-  inject: [],
+  inject: ['deptList'],
   provide() {
     return {}
   },
   methods: {
     submit() {
-      alert('提交')
+      if(!this.signupForm.firstChoice)
+      {
+        notification.error({message: '表单错误', description: '至少选择一个志愿'})
+        return
+      }
+      const signupFormData = {
+        id: nanoid(),
+        ...this.signupForm
+      }
+      console.log(signupFormData)
     }
   },
   mounted() {

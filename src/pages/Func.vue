@@ -56,7 +56,15 @@ export default {
   computed: {},
   methods: {},
   provide() {
-    return {}
+    return {
+      deptList: [
+        '新媒体平台',
+        '新媒体视频号',
+        '光in影像工作室',
+        '平面设计工作室',
+        '比特网络工作室'
+      ]
+    }
   },
   mounted() {
     this.$router.beforeEach((to, from) => {
